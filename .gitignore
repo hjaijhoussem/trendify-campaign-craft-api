@@ -1,0 +1,5 @@
+_data-dev/
+venv
+__pycache__
+.idea/
+.vscode/

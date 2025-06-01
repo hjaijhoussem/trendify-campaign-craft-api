@@ -1,0 +1,35 @@
+services:
+
+  database:
+    container_name: hack-db
+    image: 'postgres:13.3-alpine'
+    # restart: unless-stopped
+    ports:
+      - "5437:5432"
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=hack_dev
+    volumes:
+      - ./_data-dev/postgres-data:/var/lib/postgresql/data
+    networks:
+      - hack-network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: hack-pgadmin2
+    # restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - database
+    networks:
+      - hack-network
+
+networks:
+  hack-network:
+    driver: bridge
+
